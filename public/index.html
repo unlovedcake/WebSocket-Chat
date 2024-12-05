@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Chat App</title>
+</head>
+
+<style>
+    .chat-container {
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+    }
+    .message {
+      display: flex;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+    .message img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .message-details {
+      display: flex;
+      flex-direction: column;
+    }
+    .message-name {
+      font-weight: bold;
+    }
+    .message-text {
+      margin: 5px 0;
+    }
+    .message-time {
+      font-size: 0.8em;
+      color: gray;
+    }
+  </style>
+<body>
+  <h1>WebSocket Chat</h1>
+  <div class="chat-container" id="chat-container">
+    <!-- Chat messages will be displayed here -->
+  </div>
+
+
+  <div id="chat">
+    <div id="image-container">
+        <!-- Image will be appended here -->
+    </div>
+    <div id="messages"></div>
+  </div>
+
+
+  <input id="image" type="file" accept="image/*" />
+  <input id="username" type="text" placeholder="Enter your name" />
+  <input id="message" type="text" placeholder="Type a message" />
+  <button id="send">Send</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
