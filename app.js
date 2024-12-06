@@ -112,7 +112,7 @@ const generateRefreshToken = (userId) => {
 
   // User Signup Route
 app.post('/signup', upload.single('image'), async (req, res) => {
-    const { name, email, password } = req.body;
+    const { id,name, email, password } = req.body;
     const image = req.file ? req.file.path : null; // Image is optional
   
     if (!name || !email || !password) {
@@ -131,8 +131,8 @@ app.post('/signup', upload.single('image'), async (req, res) => {
   
       // Insert user into database
       const [result] = await dbapi.promise().query(
-        'INSERT INTO users (name, email, password, image_url) VALUES (?, ?, ?, ?)',
-        [name, email, hashedPassword, image]
+        'INSERT INTO users (id,name, email, password, image_url) VALUES (?,?, ?, ?, ?)',
+        [id,name, email, hashedPassword, image]
       );
   
       const userId = result.insertId;
