@@ -227,7 +227,8 @@ wss.on('connection', (ws) => {
     ws.on('message', async (data) => {
       //const parsedData = JSON.parse(data);
 
-      const {id, username, message, image} = JSON.parse(data);
+      const { username, message, image} = JSON.parse(data);
+      const id = Math.floor(100000 + Math.random() * 900000);
   
       // If an image is sent
       if (image) {
@@ -244,11 +245,11 @@ wss.on('connection', (ws) => {
         // Save message with image URL to the database
         try {
           
-           id = Math.floor(100000 + Math.random() * 900000);
+
 
           await db.query(
-            'INSERT INTO messages (id, username, message, image_url) VALUES (?, ?, ?, ?)',
-            [id ,username, message || '', imageUrl]
+            'INSERT INTO messages (id,username, message, image_url) VALUES (?,?, ?, ?)',
+            [id  ,username, message || '', imageUrl]
           );
   
           // Broadcast the message to all connected clients
@@ -268,12 +269,12 @@ wss.on('connection', (ws) => {
         }
       } else {
             try {
-      await db.query('INSERT INTO messages (username, message) VALUES (?, ?)', [username, message]);
+      await db.query('INSERT INTO messages (id,username, message) VALUES (?, ?, ?)', [id,username, message]);
 
       // Broadcast the message to all connected clients
       wss.clients.forEach((client) => {
         if (client.readyState === ws.OPEN) {
-          client.send(JSON.stringify({ username, message, created_at: new Date() }));
+          client.send(JSON.stringify({id, username, message, created_at: new Date() }));
         }
       });
     } catch (error) {
