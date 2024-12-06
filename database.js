@@ -1,10 +1,11 @@
 const mysql = require('mysql2');
+require('dotenv').config();
 
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '', // Replace with your MySQL password
-  database: 'chat_app',
+  host: process.env.MYSQL_HOST,
+  user:  process.env.MYSQL_USER,
+  password:  process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
 });
 
 
