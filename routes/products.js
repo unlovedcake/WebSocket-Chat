@@ -78,7 +78,7 @@ const storage = multer.diskStorage({
   
     // Insert product into the products table with images stored as JSON
     dbapi.query(
-      'INSERT INTO products (name, description, category, quantity, price, images) VALUES (?,?, ?, ?, ?, ?, ?)',
+      'INSERT INTO products (id,name, description, category, quantity, price, images) VALUES (?,?, ?, ?, ?, ?, ?)',
       [id,name, description, category, quantity, price, JSON.stringify(imagePaths)], // Convert images array to JSON string
       (err, result) => {
         if (err) {
