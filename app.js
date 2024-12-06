@@ -227,7 +227,7 @@ wss.on('connection', (ws) => {
     ws.on('message', async (data) => {
       //const parsedData = JSON.parse(data);
 
-      const { username, message, image} = JSON.parse(data);
+      const {id, username, message, image} = JSON.parse(data);
   
       // If an image is sent
       if (image) {
@@ -244,10 +244,10 @@ wss.on('connection', (ws) => {
         // Save message with image URL to the database
         try {
           
-           const id = Math.floor(100000 + Math.random() * 900000);
+           id = Math.floor(100000 + Math.random() * 900000);
 
           await db.query(
-            'INSERT INTO messages (id,username, message, image_url) VALUES (?,?, ?, ?)',
+            'INSERT INTO messages (id, username, message, image_url) VALUES (?, ?, ?, ?)',
             [id ,username, message || '', imageUrl]
           );
   
