@@ -33,7 +33,7 @@ app.use(bodyParser.json());
 
 
 // Route imports
-app.use('/api/products',authenticateToken, productsRoutes); // Products route
+app.use('/api/products', productsRoutes); // Products route
 
 
 
