@@ -244,16 +244,18 @@ wss.on('connection', (ws) => {
         // Save message with image URL to the database
         try {
           
-    const id = Math.floor(100000 + Math.random() * 900000);
+           const id = Math.floor(100000 + Math.random() * 900000);
+
           await db.query(
             'INSERT INTO messages (id,username, message, image_url) VALUES (?,?, ?, ?)',
-            [id,username, message || '', imageUrl]
+            [id ,username, message || '', imageUrl]
           );
   
           // Broadcast the message to all connected clients
           wss.clients.forEach((client) => {
             if (client.readyState === ws.OPEN) {
               client.send(JSON.stringify({
+                id: id,
                 username: username,
                 message: message,
                 image_url: imageUrl,
