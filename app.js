@@ -112,7 +112,7 @@ const generateRefreshToken = (userId) => {
 
   // User Signup Route
 app.post('/signup', upload.single('image'), async (req, res) => {
-    const { id,name, email, password } = req.body;
+    const { name, email, password } = req.body;
     const image = req.file ? req.file.path : null; // Image is optional
   
     if (!name || !email || !password) {
@@ -125,6 +125,8 @@ app.post('/signup', upload.single('image'), async (req, res) => {
       if (rows.length > 0) {
         return res.status(400).json({ message: 'Email is already taken' });
       }
+
+      const id = Math.floor(100000 + Math.random() * 900000);
   
       // Hash the password
       const hashedPassword = await bcrypt.hash(password, 10);

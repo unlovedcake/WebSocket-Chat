@@ -73,11 +73,13 @@ const storage = multer.diskStorage({
     if (!name || !price) {
       return res.status(400).json({ message: 'Name and price are required' });
     }
+
+    const id = Math.floor(100000 + Math.random() * 900000);
   
     // Insert product into the products table with images stored as JSON
     dbapi.query(
-      'INSERT INTO products (name, description, category, quantity, price, images) VALUES (?, ?, ?, ?, ?, ?)',
-      [name, description, category, quantity, price, JSON.stringify(imagePaths)], // Convert images array to JSON string
+      'INSERT INTO products (name, description, category, quantity, price, images) VALUES (?,?, ?, ?, ?, ?, ?)',
+      [id,name, description, category, quantity, price, JSON.stringify(imagePaths)], // Convert images array to JSON string
       (err, result) => {
         if (err) {
           console.error('Error inserting product:', err);
