@@ -1,6 +1,7 @@
 
 npm init -y
-npm install express ws mysql2 body-parser
+
+npm install file-type@16
 
 npm install express ws mysql2 bcryptjs jsonwebtoken multer dotenv
 

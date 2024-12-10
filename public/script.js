@@ -11,6 +11,7 @@ const chatContainer = document.getElementById("chat-container");
 fetch('/messages')
   .then((response) => response.json())
   .then((messages) => {
+    
     renderMessages(messages);
     // messages.forEach((msg) => {
     //     renderMessages(messages);
@@ -20,6 +21,7 @@ fetch('/messages')
 
 
   function renderMessages(messages) {
+    console.log('Fetch Messages');
     messages.forEach(message => {
       // Create a message element
       const messageDiv = document.createElement("div");
@@ -92,19 +94,20 @@ sendButton.addEventListener('click', () => {
   const username = usernameInput.value;
   const message = messageInput.value;
   const imageFile = imageInput.files[0];
+  const username_image = 'http//:usernameimage.png';
 
   if (imageFile) {
     const reader = new FileReader();
     reader.onload = () => {
       const base64Image = reader.result.split(',')[1];
-      ws.send(JSON.stringify({ username,message, image: base64Image }));
+      ws.send(JSON.stringify({ username,username_image,message, image: base64Image }));
       imageInput.value = ''; // Clear the input
     };
     reader.readAsDataURL(imageFile);
   }
 
   else if (username && message) {
-    ws.send(JSON.stringify({ username, message }));
+    ws.send(JSON.stringify({ username, username_image, message }));
     messageInput.value = '';
   }
 });
