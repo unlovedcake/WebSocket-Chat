@@ -323,14 +323,14 @@ limits: { fileSize: 1024 * 1024 * 5 },
 
 
     console.log(req.body);
-    
+    const id = Math.floor(100000 + Math.random() * 900000);
   
     const query = `
-   INSERT INTO reactions (message_id, user_id, reaction_type) 
-    VALUES (?, ?, ?)
+   INSERT INTO reactions (id,message_id, user_id, reaction_type) 
+    VALUES (?, ?, ?, ?)
   `;
     try {
-      const [rows] = await db.query(query,[message_id,user_id,reaction_type]);
+      const [rows] = await db.query(query,[id,message_id,user_id,reaction_type]);
       //res.json(rows);
       res.status(200).json({ status: 'success', reaction: rows });
     } catch (error) {
