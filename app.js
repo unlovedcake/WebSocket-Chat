@@ -293,6 +293,30 @@ limits: { fileSize: 1024 * 1024 * 5 },
   });
 
 
+  app.post('/conversation', async (req, res) => {
+
+    const { user_one_id, user_two_id } = req.body; 
+
+
+    console.log(req.body);
+
+    const id = Math.floor(100000 + Math.random() * 900000);
+    
+  
+    const query = `
+  INSERT INTO conversations (id,user_one_id, user_two_id)
+  VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id);
+  `;
+    try {
+      const [rows] = await db.query(query,[id ,user_one_id, user_two_id]);
+  
+      res.status(200).json({ status: 'success', conversations: rows });
+    } catch (error) {
+      res.status(500).json({ error: 'Database error' + error});
+    }
+  });
+
+
   app.post('/reaction', async (req, res) => {
 
     const { message_id, user_id,reaction_type } = req.body; 
@@ -482,10 +506,12 @@ wss.on('connection', (ws) => {
         // );
 
     }
+    const id = Math.floor(100000 + Math.random() * 900000);
+    
 
     await db.query(
-      'INSERT INTO messages (conversation_id, sender_id, text, media_url,media_type) VALUES (?, ?, ?,?,?)',
-      [conversation_id,sender_id, text || '', mediaUrl,media_type]
+      'INSERT INTO messages (id,conversation_id, sender_id, text, media_url,media_type) VALUES (?,?, ?, ?,?,?)',
+      [id,conversation_id,sender_id, text || '', mediaUrl,media_type]
     );
 
 
@@ -496,7 +522,7 @@ wss.on('connection', (ws) => {
   
 
 
-      const id = Math.floor(100000 + Math.random() * 900000);
+    
         // Broadcast the message to all connected clients
         wss.clients.forEach((client) => {
           if (client.readyState === ws.OPEN) {
