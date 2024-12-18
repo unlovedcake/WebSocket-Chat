@@ -197,14 +197,16 @@ const getAllPinned = async (data, ws,wss) => {
         try {
   
             const { message_id,user_id,reaction_type} = JSON.parse(data);
+
+            const id = Math.floor(100000 + Math.random() * 900000);
    
             const query = `
-            INSERT INTO reactions (message_id, user_id, reaction_type) 
-            VALUES ( ?, ?, ?)
+            INSERT INTO reactions (id,message_id, user_id, reaction_type) 
+            VALUES ( ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE reaction_type = VALUES(reaction_type);
             `;
            
-          const [rows] = await db.query(query,[message_id,user_id,reaction_type]);
+          const [rows] = await db.query(query,[id,message_id,user_id,reaction_type]);
   
           console.log('Reactions' + rows);
             
